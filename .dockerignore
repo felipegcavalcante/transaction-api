@@ -1,0 +1,11 @@
+tests
+.git
+.devcontainer
+.gitignore
+.editorconfig
+docker-compose.yml
+Dockerfile
+ruleset.xml
+appspec.yml
+buildspec.yml
+phpunit.xml.dist

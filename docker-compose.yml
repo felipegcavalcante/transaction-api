@@ -1,0 +1,48 @@
+version: "3.5"
+
+services:
+    nginx:
+        image: nginx:latest
+        container_name: nginx
+        ports:
+            - "8080:80" # Mapeia a porta 8080 do host para a porta 80 do contêiner Nginx
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf # Certifique-se de ter um arquivo nginx.conf correto
+            - .:/var/www/html
+        depends_on:
+            - php
+        networks:
+            - application
+
+    php:
+        image: php:8.2-fpm
+        container_name: php
+        volumes:
+            - .:/var/www/html
+        networks:
+            - application
+        environment:
+            HANDLER: public/index.php
+            DOCUMENT_ROOT: public
+
+    mysql:
+        image: mysql:5.7
+        container_name: mysql
+        ports:
+            - "3308:3306"
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: ccca
+        volumes:
+            - mysql-data:/var/lib/mysql
+        networks:
+            - application
+
+volumes:
+    mysql-data:
+        driver: local
+
+networks:
+    application:
+        driver: bridge
