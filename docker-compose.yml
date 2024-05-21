@@ -1,48 +1,38 @@
-version: "3.5"
-
 services:
     nginx:
-        image: nginx:latest
+        image: nginx:1.25-alpine
         container_name: nginx
         ports:
-            - "8080:80" # Mapeia a porta 8080 do host para a porta 80 do contêiner Nginx
+            - "8080:80"
         volumes:
-            - ./nginx.conf:/etc/nginx/nginx.conf # Certifique-se de ter um arquivo nginx.conf correto
+            - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
             - .:/var/www/html
         depends_on:
             - php
-        networks:
-            - application
 
     php:
-        image: php:8.2-fpm
+        build: ./docker/php/
         container_name: php
         volumes:
             - .:/var/www/html
-        networks:
-            - application
+            - ./var/logs:/var/www/html/var/logs:rw
         environment:
-            HANDLER: public/index.php
-            DOCUMENT_ROOT: public
+            - TZ=America/Sao_Paulo
+            - HANDLER=public/index.php
+            - DOCUMENT_ROOT=public
 
     mysql:
-        image: mysql:5.7
+        image: mysql:8.3
         container_name: mysql
         ports:
             - "3308:3306"
         restart: always
         environment:
             MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: ccca
+            MYSQL_DATABASE: transfer_api
         volumes:
             - mysql-data:/var/lib/mysql
-        networks:
-            - application
+            - ./docker/mysql/init:/docker-entrypoint-initdb.d
 
 volumes:
     mysql-data:
-        driver: local
-
-networks:
-    application:
-        driver: bridge

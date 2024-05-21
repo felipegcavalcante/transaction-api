@@ -4,7 +4,7 @@
          bootstrap="vendor/autoload.php"
          cacheResultFile="var/cache/.phpunit.cache/test-results"
          executionOrder="depends,defects"
-         forceCoversAnnotation="true"
+         forceCoversAnnotation="false"
          beStrictAboutCoversAnnotation="false"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTodoAnnotatedTests="true"
@@ -13,8 +13,7 @@
          verbose="true">
     <testsuites>
         <testsuite name="default">
-            <directory>tests/Integration</directory>
-            <directory>tests/Unit</directory>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 
@@ -34,9 +33,9 @@
         <env name="APP_LOG_ERRORS" value="true" />
         <env name="APP_LOG_ERROR_DETAILS" value="true" />
         <env name="TMPDIR" value="/tmp/localstack" />
-        <env name="MYSQL_ROOT_PASSWORD" value="123456" />
-        <env name="MYSQL_DATABASE" value="my_app" />
-        <env name="MYSQL_USER" value="admin" />
-        <env name="MYSQL_PASSWORD" value="12admin34" />
+        <env name="DB_DSN" value="mysql:host=192.168.80.3;port=3306;dbname=transfer_api" />
+        <env name="DB_USERNAME" value="root" />
+        <env name="DB_PASSWORD" value="root" />
+
     </php>
 </phpunit>

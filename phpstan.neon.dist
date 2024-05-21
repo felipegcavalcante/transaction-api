@@ -5,8 +5,6 @@ parameters:
       path: config/container.php
   fileExtensions:
     - php
-  checkGenericClassInNonGenericObjectType: false
-  checkMissingIterableValueType: false
   level: 9
   excludePaths:
     - tests/Codeception/

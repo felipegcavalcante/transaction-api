@@ -17,9 +17,16 @@
     <!-- Import the entire controversial rule set -->
     <rule ref="rulesets/controversial.xml" />
     <!-- Import the entire naming rule set -->
-    <rule ref="rulesets/naming.xml" />
-    <!-- Import the entire design code rule set -->
-    <rule ref="rulesets/design.xml" />
+    <rule ref="rulesets/naming.xml/ShortVariable">
+        <properties>
+            <property name="minimum" value="2" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/design.xml/NumberOfChildren">
+        <properties>
+            <property name="minimum" value="20"/>
+        </properties>
+    </rule>
     <!-- Import the entire code size rule set -->
     <rule ref="rulesets/codesize.xml" />
 </ruleset>

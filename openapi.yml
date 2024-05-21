@@ -1,0 +1,109 @@
+openapi: 3.0.3
+info:
+    title: Transaction API
+    version: 1.0.0
+    description: API de transferência de valores entre usuários.
+paths:
+    /transfer:
+        post:
+            summary: Realiza transferência entre dois usuários.
+            tags:
+                - transfer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                value:
+                                    type: number
+                                    format: float
+                                    description: Valor da transferência
+                                    example: 45.50
+                                payer:
+                                    type: integer
+                                    description: id do pagador
+                                    example: 4
+                                payee:
+                                    type: integer
+                                    description: id do recebedor
+                                    example: 15
+            responses:
+                '201':
+                    description: Created
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/TransactionResponse'
+                '400':
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DomainError'
+                '422':
+                    description: Unprocessable Entity
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ValidationError'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/InternalError'
+
+components:
+    schemas:
+        TransactionResponse:
+            type: object
+            properties:
+                transaction_id:
+                    type: string
+                    format: uuid
+                    example: f70d79f3-1a91-4995-b339-ea9a767f55b1
+                value:
+                    type: number
+                    format: float
+                    example: 45.5
+                payer:
+                    type: integer
+                    example: 4
+                payee:
+                    type: integer
+                    example: 15
+                occurred_at:
+                    type: string
+                    example: 2024-05-19 15:07:33
+        DomainError:
+            type: object
+            properties:
+                type:
+                    type: string
+                    example: InsufficientBalance
+                message:
+                    type: string
+                    example: Usuário pagador não possui saldo suficiente para esta tranferência.
+        ValidationError:
+            type: object
+            properties:
+                type:
+                    type: string
+                    example: ValidationError
+                message:
+                    type: string
+                    example: Houve um erro ao validar o payload da requisição.
+                errors:
+                    type: array
+                    example: ['payee must be type of int']
+        InternalError:
+            type: object
+            properties:
+                type:
+                    type: string
+                    example: InternalError
+                message:
+                    type: string
+                    example: Houve um erro interno na aplicação.

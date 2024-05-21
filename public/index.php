@@ -9,7 +9,6 @@ use function Infrastructure\Adapters\Support\configPath;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-
 $dotenv = Dotenv\Dotenv::createImmutable(basePath());
 $dotenv->safeLoad();
 
